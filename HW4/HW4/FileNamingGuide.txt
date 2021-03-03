@@ -1,0 +1,3 @@
+#Guide :
+(Exercise 4 question 1) => HW4.1.py
+(Exercise 4 question 2 with all its parts) => HW4.2.py

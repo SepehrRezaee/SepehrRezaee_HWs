@@ -1,0 +1,4 @@
+# Numbering sequence: 
+[Part 1 of Exercise 2] => 2-1.py
+[Part 2 of Exercise 2] => 2-2.py
+[Part 3 of Exercise 2] => 2-3.py
