@@ -1,0 +1,25 @@
+case1 -->  calculate_markup_percent("1", 5)
+answer --> 15.556
+
+case2 -->  calculate_markup_percent("2", 1)
+answer --> 20
+
+case3 -->  calculate_markup_percent("3", 20)
+answer --> 10
+
+case4 -->  calculate_product_price("1", 10, 1002)
+answer --> {'product_name': 'shirt', 'total_price': 330.0, 'total_with_commission': 313.5, 'discount': 16.5, 'username': {'first_name': 'Sobhan', 'last_name': 'Taghadosi'}}
+
+case5 -->  calculate_product_price("1", 15, 1003)
+answer --> {'product_name': 'shirt', 'total_price': 495.0, 'total_with_commission': 470.25, 'discount': 24.75, 'username': {'first_name': 'Javad', 'last_name': 'Jafari'}}
+
+case6 -->  calculate_product_price("4", 20, 1005)
+answer --> {'product_name': 'hat', 'total_price': 440.0, 'total_with_commission': 440.0, 'discount': 0, 'username': {'first_name': 'Hassan', 'last_name': 'Zand'}}
+
+case7 -->  calculate_product_price("2", 1)
+answer --> {'product_name': 'pants', 'total_price': 60.0, 'total_with_commission': 60.0, 'discount': 0, 'username': {'first_name': '', 'last_name': ''}}
+
+
+
+
+
