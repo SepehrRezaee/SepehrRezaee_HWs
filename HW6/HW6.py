@@ -114,6 +114,7 @@ user_list = [
     }
 ]
 
+
 # --------------------problem 1--------------------
 def calculate_markup_percent(typ, count):
     upper_cost = [index["upper_cost"]
@@ -131,21 +132,21 @@ def calculate_markup_percent(typ, count):
     return round(coefficient_markup, 3)
 
 
-def calculator_of_total_with_commission(total_price, discount_number, count, type_of_unit):
+def calculator_of_total_with_commission(total_price, discount_number, type_of_unit):
     if type_of_unit[0] == "Dollar":
-        return round(total_price - discount_number[0] * count, 3)
+        return round(total_price - discount_number[0], 3)
     if type_of_unit[0] == "percent":
         return round(total_price * (1 - discount_number[0] / 100), 3)
 
 
-def comparator(total_price, count, group_names_type):
+def comparator(total_price, group_names_type):
     total_with_commission = list()
     for group_name in group_names_type:
         discount_number = finder_values_of_discount_list("cost", group_name)
         type_of_unit = finder_values_of_discount_list("unit", group_name)
         total_with_commission.append(
-            calculator_of_total_with_commission(total_price, discount_number, count, type_of_unit))
-    return max(total_with_commission)
+            calculator_of_total_with_commission(total_price, discount_number, type_of_unit))
+    return min(total_with_commission)
 
 
 def finder_values_of_discount_list(part_of_dict, group_name):
@@ -165,25 +166,24 @@ def repetition(group_names_of_product_type, userid):
                 counter += 1
     return counter
 
+
 # --------------------problem 2--------------------
 def calculate_product_price(product_type, count, userid):
-    initial_price = [(1 + (calculate_markup_percent(product_type, count) / 100)) * index["price"]
-                     for index in product_list if index["type"] == product_type]
-    total_price = initial_price[0] * count
-    whole_userid = [index["userid"] for index in user_list]
+    total_price = [(1 + (calculate_markup_percent(product_type, count) / 100)) * index["price"]
+                   for index in product_list if index["type"] == product_type][0] * count
     group_names_of_product_type = [names for index in product_list for names in index["commission_groups"]
                                    if index["type"] == product_type]
-    if all([any([userid == number for number in whole_userid]), len(group_names_of_product_type) != 0]):
+    if all([any([userid == number["userid"] for number in user_list]), len(group_names_of_product_type) != 0]):
         if repetition(group_names_of_product_type, userid) == 0:
             total_with_commission = total_price
             discount = total_price - total_with_commission
         elif repetition(group_names_of_product_type, userid) == 1:
             discount_number = finder_values_of_discount_list("cost", group_names_of_product_type[0])
             unit = finder_values_of_discount_list("unit", group_names_of_product_type[0])
-            total_with_commission = calculator_of_total_with_commission(total_price, discount_number, count, unit)
+            total_with_commission = calculator_of_total_with_commission(total_price, discount_number, unit)
             discount = total_price - total_with_commission
         else:
-            total_with_commission = comparator(total_price, count, group_names_of_product_type)
+            total_with_commission = comparator(total_price, group_names_of_product_type)
             discount = total_price - total_with_commission
         return {
             "product_name": [index["name"] for index in product_list if index["type"] == product_type][0],
@@ -208,4 +208,4 @@ def calculate_product_price(product_type, count, userid):
         }
 
 
-print(calculate_product_price("1", 10, 1002))
+print(calculate_product_price("3", 15, 1006))
