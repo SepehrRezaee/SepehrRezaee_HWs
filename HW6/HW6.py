@@ -164,7 +164,6 @@ def calculate_product_price(product_type, count, userid):
                                    if index["type"] == product_type]
     group_name_userid = [index["group_name"] for index in discount_list
                          for numbers in index["users"] if numbers == userid]
-
     if any([userid == number["userid"] for number in user_list]):
         first_name = [index["first_name"] for index in user_list if index["userid"] == userid]
         last_name = [index["last_name"] for index in user_list if index["userid"] == userid]
