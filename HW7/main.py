@@ -50,17 +50,16 @@ type_1.get_markup_percent(5)
 pprint(type_1.get_markup_percent(5))
 
 # --------------------problem 2--------------------
-buyer = CashDesk("4", 20, 1005)
 member_ids = [mohsen_bayat.get_user_id(), sobhan_taghadosi.get_user_id(), javad_jafari.get_user_id(),
               masoud_hosseini.get_user_id(), hassan_zand.get_user_id(), ali_ebadi.get_user_id()]
 
-full_name_members = {mohsen_bayat.get_user_id(): [mohsen_bayat.get_first_name(), mohsen_bayat.get_last_name()],
-                     sobhan_taghadosi.get_user_id(): [sobhan_taghadosi.get_first_name(),
-                                                      sobhan_taghadosi.get_last_name()],
-                     javad_jafari.get_user_id(): [javad_jafari.get_first_name(), javad_jafari.get_last_name()],
-                     masoud_hosseini.get_user_id(): [masoud_hosseini.get_first_name(), masoud_hosseini.get_last_name()],
-                     hassan_zand.get_user_id(): [hassan_zand.get_first_name(), hassan_zand.get_last_name()],
-                     ali_ebadi.get_user_id(): [ali_ebadi.get_first_name(), ali_ebadi.get_last_name()]}
+fullname_members = {mohsen_bayat.get_user_id(): [mohsen_bayat.get_first_name(), mohsen_bayat.get_last_name()],
+                    sobhan_taghadosi.get_user_id(): [sobhan_taghadosi.get_first_name(),
+                                                     sobhan_taghadosi.get_last_name()],
+                    javad_jafari.get_user_id(): [javad_jafari.get_first_name(), javad_jafari.get_last_name()],
+                    masoud_hosseini.get_user_id(): [masoud_hosseini.get_first_name(), masoud_hosseini.get_last_name()],
+                    hassan_zand.get_user_id(): [hassan_zand.get_first_name(), hassan_zand.get_last_name()],
+                    ali_ebadi.get_user_id(): [ali_ebadi.get_first_name(), ali_ebadi.get_last_name()]}
 
 products = {shirt.get_product_type(): [shirt.get_product_name(), shirt.get_commission_groups(), shirt.get_price()],
             pants.get_product_type(): [pants.get_product_name(), pants.get_commission_groups(), pants.get_price()],
@@ -68,19 +67,18 @@ products = {shirt.get_product_type(): [shirt.get_product_name(), shirt.get_commi
                                        shoes.get_price()],
             hat.get_product_type(): [hat.get_product_name(), hat.get_commission_groups(), hat.get_price()]}
 
+discount_info = {a_group.get_group_name(): [a_group.get_users(), a_group.get_info()],
+                 b_group.get_group_name(): [b_group.get_users(), b_group.get_info()],
+                 c_group.get_group_name(): [c_group.get_users(), c_group.get_info()]}
+
+buyer = CashDesk("1", 15, 1003, member_ids, fullname_members)
+
 markup_product = {type_1.get_product_type(): type_1.get_markup_percent(buyer.get_count()),
                   type_2.get_product_type(): type_2.get_markup_percent(buyer.get_count()),
                   type_3.get_product_type(): type_3.get_markup_percent(buyer.get_count()),
                   type_4.get_product_type(): type_4.get_markup_percent(buyer.get_count())}
 
-discount_info = {a_group.get_group_name(): [a_group.get_users(), a_group.get_info()],
-                 b_group.get_group_name(): [b_group.get_users(), b_group.get_info()],
-                 c_group.get_group_name(): [c_group.get_users(), c_group.get_info()]}
-
 discount_list = products[buyer.get_product_type()][1]
-is_a_member = list()
-for number in member_ids:
-    is_a_member.append(buyer.get_id_number() == number)
 price_list = list()
 total_price = round(products[buyer.get_product_type()][2] * buyer.get_count() * (
         1 + markup_product[buyer.get_product_type()] / 100), 3)
@@ -94,30 +92,18 @@ for group in discount_list:
                 total_price_with_commission = round(total_price - discount_info[group][1][1], 3)
                 price_list.append(total_price_with_commission)
 
-if any(is_a_member):
-    first_name, last_name = full_name_members[buyer.get_id_number()][0], full_name_members[buyer.get_id_number()][1]
+total_price_with_commission = 0
+if buyer.is_a_member():
+    total_price_with_commission = round(min(price_list), 3)
 else:
-    first_name, last_name = "", ""
+    total_price_with_commission = total_price
 
-if discount_list:
-    pprint({
-        "product_name": products[buyer.get_product_type()][0],
+pprint({"product_name": products[buyer.get_product_type()][0],
         "total_price": total_price,
-        "total_price_with_commission": min(price_list),
-        "discount": total_price - min(price_list),
+        "total_price_with_commission": total_price_with_commission,
+        "discount": total_price - total_price_with_commission,
         "username": {
-            "first_name": first_name,
-            "last_name": last_name
-        }
-    })
-else:
-    pprint({
-        "product_name": products[buyer.get_product_type()][0],
-        "total_price": total_price,
-        "total_price_with_commission": total_price,
-        "discount": total_price - total_price,
-        "username": {
-            "first_name": first_name,
-            "last_name": last_name
-        }
-    })
+            "first_name": buyer.get_first_name(),
+            "last_name": buyer.get_last_name()
+            }
+        })
