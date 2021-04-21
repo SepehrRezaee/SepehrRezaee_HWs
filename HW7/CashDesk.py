@@ -1,7 +1,7 @@
 from Discount import Discounts
 from Markups import Markup
 from Products import Products
-from Userids import Userid
+from Userids import UserId
 
 
 class CashDesk:
@@ -13,19 +13,19 @@ class CashDesk:
         self.price_list = list()
 
     def is_a_member(self):
-        for number in Userid.member_ids:
+        for number in UserId.member_ids:
             self.checker.append(number == self.id_number)
         return any(self.checker)
 
     def get_first_name(self):
         if self.is_a_member():
-            return Userid.member_info[self.id_number]["first_name"]
+            return UserId.member_info[self.id_number]["first_name"]
         else:
             return ""
 
     def get_last_name(self):
         if self.is_a_member():
-            return Userid.member_info[self.id_number]["last_name"]
+            return UserId.member_info[self.id_number]["last_name"]
         else:
             return ""
 
