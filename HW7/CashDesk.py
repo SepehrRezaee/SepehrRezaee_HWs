@@ -1,7 +1,7 @@
-from Discount import Discounts
+from Discounts import Discounts
 from Markups import Markup
 from Products import Products
-from Userids import UserId
+from Userid import UserId
 
 
 class CashDesk:
